@@ -1,0 +1,25 @@
+tests:
+  - name : telco-cpu-utilization-max
+    index: svc_telco_cpu_util
+    benchmarkIndex: svc_telco_cpu_util
+    timestamp: timestamp.keyword
+    uuid: uuid
+    version: tags.sw_version
+    metadata:
+      tags.sw_version: "4.19*"
+      tags.cluster: "spree-01"
+    metrics:
+    - name: pods_cpu
+      resource_type: cpu
+      component: infra_pods
+      test_phase: steadyworkload
+      result_type: max
+      metric_of_interest: value
+      timestamp: timestamp
+    - name: daemons_cpu
+      resource_type: cpu
+      component: os_daemon
+      test_phase: steadyworkload
+      result_type: max
+      metric_of_interest: value
+      timestamp: timestamp
