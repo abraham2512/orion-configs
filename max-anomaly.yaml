@@ -6,7 +6,7 @@ tests:
     uuid: uuid
     version: tags.sw_version
     metadata:
-      tags.sw_version: "4.20*"
+      # tags.sw_version: "4.20*"
       tags.cluster: "ci-op*"
     metrics:
     - name: pods_cpu
