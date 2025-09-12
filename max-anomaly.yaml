@@ -4,7 +4,7 @@ tests:
     benchmarkIndex: svc_telco_cpu_util
     timestamp: timestamp.keyword
     uuid: uuid
-    version: tags.sw_version
+    ocpVersion: tags.sw_version
     metadata:
       tags.sw_version: "4.20*"
       tags.cluster: "ci-op*"
