@@ -249,7 +249,7 @@ tests:
     metric_of_interest: value
     timestamp: timestamp
     tags.namespace.keyword: openshift-etcd
-    tags.pod.keyword: etcd-spree-04.kpi.telcoqe.eng.rdu2.dc.redhat.com
+    tags.pod.keyword: etcd-
     direction: 1
     threshold: 20
   - name: cluster-image-registry-operator-openshift-image-registry
@@ -326,7 +326,7 @@ tests:
     metric_of_interest: value
     timestamp: timestamp
     tags.namespace.keyword: openshift-kube-apiserver
-    tags.pod.keyword: kube-apiserver-spree-04.kpi.telcoqe.eng.rdu2.dc.redhat.com
+    tags.pod.keyword: kube-apiserver-
     direction: 1
     threshold: 20
   - name: kube-controller-manager-operator-openshift-kube-controller-manager-operator
@@ -348,7 +348,7 @@ tests:
     metric_of_interest: value
     timestamp: timestamp
     tags.namespace.keyword: openshift-kube-controller-manager
-    tags.pod.keyword: kube-controller-manager-spree-04.kpi.telcoqe.eng.rdu2.dc.redhat.com
+    tags.pod.keyword: kube-controller-manager-
     direction: 1
     threshold: 20
   - name: openshift-kube-scheduler-operator-openshift-kube-scheduler-operator
@@ -370,7 +370,7 @@ tests:
     metric_of_interest: value
     timestamp: timestamp
     tags.namespace.keyword: openshift-kube-scheduler
-    tags.pod.keyword: openshift-kube-scheduler-spree-04.kpi.telcoqe.eng.rdu2.dc.redhat.com
+    tags.pod.keyword: openshift-kube-scheduler-
     direction: 1
     threshold: 20
   - name: kube-storage-version-migrator-operator-openshift-kube-storage-version-migrator-operator
@@ -436,7 +436,7 @@ tests:
     metric_of_interest: value
     timestamp: timestamp
     tags.namespace.keyword: openshift-machine-config-operator
-    tags.pod.keyword: kube-rbac-proxy-crio-spree-04.kpi.telcoqe.eng.rdu2.dc.redhat.com
+    tags.pod.keyword: kube-rbac-proxy-crio-
     direction: 1
     threshold: 20
   - name: machine-config-controller-openshift-machine-config-operator
