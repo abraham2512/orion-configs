@@ -1,0 +1,80 @@
+---
+ack:
+  - uuid: 2af87bcf-1e71-4f34-93ec-d43fe02a5ae0
+    metric: apiserver-openshift-apiserver_value
+    reason: "Changepoint detected"
+  - uuid: 3911dc0f-0f1c-4049-bb08-e09599e4d11f
+    metric: apiserver-openshift-apiserver_value
+    reason: "Changepoint detected"
+  - uuid: 2af87bcf-1e71-4f34-93ec-d43fe02a5ae0
+    metric: controller-manager-openshift-controller-manager_value
+    reason: "Changepoint detected"
+  - uuid: 3911dc0f-0f1c-4049-bb08-e09599e4d11f
+    metric: controller-manager-openshift-controller-manager_value
+    reason: "Changepoint detected"
+  - uuid: 3911dc0f-0f1c-4049-bb08-e09599e4d11f
+    metric: etcd-operator-openshift-etcd-operator_value
+    reason: "Changepoint detected"
+  - uuid: 2af87bcf-1e71-4f34-93ec-d43fe02a5ae0
+    metric: ingress-operator-openshift-ingress-operator_value
+    reason: "Changepoint detected"
+  - uuid: 3911dc0f-0f1c-4049-bb08-e09599e4d11f
+    metric: ingress-operator-openshift-ingress-operator_value
+    reason: "Changepoint detected"
+  - uuid: 3911dc0f-0f1c-4049-bb08-e09599e4d11f
+    metric: iptables-alerter-openshift-network-operator_value
+    reason: "Changepoint detected"
+  - uuid: 3911dc0f-0f1c-4049-bb08-e09599e4d11f
+    metric: local-storage-operator-openshift-local-storage_value
+    reason: "Changepoint detected"
+  - uuid: 2af87bcf-1e71-4f34-93ec-d43fe02a5ae0
+    metric: machine-config-controller-openshift-machine-config-operator_value
+    reason: "Changepoint detected"
+  - uuid: 3911dc0f-0f1c-4049-bb08-e09599e4d11f
+    metric: machine-config-controller-openshift-machine-config-operator_value
+    reason: "Changepoint detected"
+  - uuid: 1a871e53-ed13-4e02-943d-dbbe3048cb7e
+    metric: machine-config-daemon-openshift-machine-config-operator_value
+    reason: "Changepoint detected"
+  - uuid: 3911dc0f-0f1c-4049-bb08-e09599e4d11f
+    metric: machine-config-daemon-openshift-machine-config-operator_value
+    reason: "Changepoint detected"
+  - uuid: 1a871e53-ed13-4e02-943d-dbbe3048cb7e
+    metric: machine-config-operator-openshift-machine-config-operator_value
+    reason: "Changepoint detected"
+  - uuid: 2af87bcf-1e71-4f34-93ec-d43fe02a5ae0
+    metric: machine-config-operator-openshift-machine-config-operator_value
+    reason: "Changepoint detected"
+  - uuid: 3911dc0f-0f1c-4049-bb08-e09599e4d11f
+    metric: machine-config-operator-openshift-machine-config-operator_value
+    reason: "Changepoint detected"
+  - uuid: 2af87bcf-1e71-4f34-93ec-d43fe02a5ae0
+    metric: multus-openshift-multus_value
+    reason: "Changepoint detected"
+  - uuid: 3911dc0f-0f1c-4049-bb08-e09599e4d11f
+    metric: multus-openshift-multus_value
+    reason: "Changepoint detected"
+  - uuid: b12c4cf4-3ac2-4e20-a75f-60360dc73552
+    metric: node-ca-openshift-image-registry_value
+    reason: "Changepoint detected"
+  - uuid: 3911dc0f-0f1c-4049-bb08-e09599e4d11f
+    metric: node-exporter-openshift-monitoring_value
+    reason: "Changepoint detected"
+  - uuid: 2af87bcf-1e71-4f34-93ec-d43fe02a5ae0
+    metric: olm-operator-openshift-operator-lifecycle-manager_value
+    reason: "Changepoint detected"
+  - uuid: 3911dc0f-0f1c-4049-bb08-e09599e4d11f
+    metric: ovnkube-node-openshift-ovn-kubernetes_value
+    reason: "Changepoint detected"
+  - uuid: 2af87bcf-1e71-4f34-93ec-d43fe02a5ae0
+    metric: packageserver-openshift-operator-lifecycle-manager_value
+    reason: "Changepoint detected"
+  - uuid: 3911dc0f-0f1c-4049-bb08-e09599e4d11f
+    metric: packageserver-openshift-operator-lifecycle-manager_value
+    reason: "Changepoint detected"
+  - uuid: 1a871e53-ed13-4e02-943d-dbbe3048cb7e
+    metric: prometheus-operator-openshift-monitoring_value
+    reason: "Changepoint detected"
+  - uuid: 3911dc0f-0f1c-4049-bb08-e09599e4d11f
+    metric: router-default-openshift-ingress_value
+    reason: "Changepoint detected"
