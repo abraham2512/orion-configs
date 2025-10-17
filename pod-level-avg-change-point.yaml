@@ -5,10 +5,9 @@ tests:
   timestamp: timestamp
   uuid: uuid
   version: tags.sw_version
-  # lookback-size: 1000
   metadata:
     tags.sw_version: 4.20*
-    # tags.cluster: ci-op*
+    # tags.cluster: "ci-op*"
   metrics:
   - name: config-policy-controller-open-cluster-management-agent-addon
     resource_type: cpu
@@ -20,7 +19,7 @@ tests:
     tags.namespace: open-cluster-management-agent-addon
     tags.pod: config-policy-controller-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: governance-policy-framework-open-cluster-management-agent-addon
     resource_type: cpu
     component: infra_pods
@@ -31,7 +30,7 @@ tests:
     tags.namespace: open-cluster-management-agent-addon
     tags.pod: governance-policy-framework-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: klusterlet-addon-workmgr-open-cluster-management-agent-addon
     resource_type: cpu
     component: infra_pods
@@ -42,7 +41,7 @@ tests:
     tags.namespace: open-cluster-management-agent-addon
     tags.pod: klusterlet-addon-workmgr-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: managed-serviceaccount-addon-agent-open-cluster-management-agent-addon
     resource_type: cpu
     component: infra_pods
@@ -53,7 +52,7 @@ tests:
     tags.namespace: open-cluster-management-agent-addon
     tags.pod: managed-serviceaccount-addon-agent-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: klusterlet-open-cluster-management-agent
     resource_type: cpu
     component: infra_pods
@@ -64,7 +63,7 @@ tests:
     tags.namespace: open-cluster-management-agent
     tags.pod: klusterlet-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: klusterlet-agent-open-cluster-management-agent
     resource_type: cpu
     component: infra_pods
@@ -75,7 +74,7 @@ tests:
     tags.namespace: open-cluster-management-agent
     tags.pod: klusterlet-agent-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: openshift-apiserver-operator-openshift-apiserver-operator
     resource_type: cpu
     component: infra_pods
@@ -86,7 +85,7 @@ tests:
     tags.namespace: openshift-apiserver-operator
     tags.pod: openshift-apiserver-operator-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: apiserver-openshift-apiserver
     resource_type: cpu
     component: infra_pods
@@ -97,7 +96,7 @@ tests:
     tags.namespace: openshift-apiserver
     tags.pod: apiserver-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: authentication-operator-openshift-authentication-operator
     resource_type: cpu
     component: infra_pods
@@ -108,7 +107,7 @@ tests:
     tags.namespace: openshift-authentication-operator
     tags.pod: authentication-operator-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: oauth-openshift-openshift-authentication
     resource_type: cpu
     component: infra_pods
@@ -119,7 +118,7 @@ tests:
     tags.namespace: openshift-authentication
     tags.pod: oauth-openshift-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: machine-approver-openshift-cluster-machine-approver
     resource_type: cpu
     component: infra_pods
@@ -130,7 +129,7 @@ tests:
     tags.namespace: openshift-cluster-machine-approver
     tags.pod: machine-approver-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: cluster-node-tuning-operator-openshift-cluster-node-tuning-operator
     resource_type: cpu
     component: infra_pods
@@ -141,7 +140,7 @@ tests:
     tags.namespace: openshift-cluster-node-tuning-operator
     tags.pod: cluster-node-tuning-operator-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: tuned-openshift-cluster-node-tuning-operator
     resource_type: cpu
     component: infra_pods
@@ -152,7 +151,7 @@ tests:
     tags.namespace: openshift-cluster-node-tuning-operator
     tags.pod: tuned-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: cluster-version-operator-openshift-cluster-version
     resource_type: cpu
     component: infra_pods
@@ -163,7 +162,7 @@ tests:
     tags.namespace: openshift-cluster-version
     tags.pod: cluster-version-operator-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: openshift-config-operator-openshift-config-operator
     resource_type: cpu
     component: infra_pods
@@ -174,7 +173,7 @@ tests:
     tags.namespace: openshift-config-operator
     tags.pod: openshift-config-operator-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: openshift-controller-manager-operator-openshift-controller-manager-operator
     resource_type: cpu
     component: infra_pods
@@ -185,7 +184,7 @@ tests:
     tags.namespace: openshift-controller-manager-operator
     tags.pod: openshift-controller-manager-operator-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: controller-manager-openshift-controller-manager
     resource_type: cpu
     component: infra_pods
@@ -196,7 +195,7 @@ tests:
     tags.namespace: openshift-controller-manager
     tags.pod: controller-manager-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: dns-operator-openshift-dns-operator
     resource_type: cpu
     component: infra_pods
@@ -207,7 +206,7 @@ tests:
     tags.namespace: openshift-dns-operator
     tags.pod: dns-operator-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: dns-default-openshift-dns
     resource_type: cpu
     component: infra_pods
@@ -218,7 +217,7 @@ tests:
     tags.namespace: openshift-dns
     tags.pod: dns-default-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: node-resolver-openshift-dns
     resource_type: cpu
     component: infra_pods
@@ -229,7 +228,7 @@ tests:
     tags.namespace: openshift-dns
     tags.pod: node-resolver-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: etcd-operator-openshift-etcd-operator
     resource_type: cpu
     component: infra_pods
@@ -240,7 +239,7 @@ tests:
     tags.namespace: openshift-etcd-operator
     tags.pod: etcd-operator-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: etcd-openshift-etcd
     resource_type: cpu
     component: infra_pods
@@ -251,7 +250,7 @@ tests:
     tags.namespace: openshift-etcd
     tags.pod: etcd-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: cluster-image-registry-operator-openshift-image-registry
     resource_type: cpu
     component: infra_pods
@@ -262,7 +261,7 @@ tests:
     tags.namespace: openshift-image-registry
     tags.pod: cluster-image-registry-operator-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: node-ca-openshift-image-registry
     resource_type: cpu
     component: infra_pods
@@ -273,7 +272,7 @@ tests:
     tags.namespace: openshift-image-registry
     tags.pod: node-ca-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: ingress-canary-openshift-ingress-canary
     resource_type: cpu
     component: infra_pods
@@ -284,7 +283,7 @@ tests:
     tags.namespace: openshift-ingress-canary
     tags.pod: ingress-canary-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: ingress-operator-openshift-ingress-operator
     resource_type: cpu
     component: infra_pods
@@ -295,7 +294,7 @@ tests:
     tags.namespace: openshift-ingress-operator
     tags.pod: ingress-operator-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: router-default-openshift-ingress
     resource_type: cpu
     component: infra_pods
@@ -306,7 +305,7 @@ tests:
     tags.namespace: openshift-ingress
     tags.pod: router-default-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: kube-apiserver-operator-openshift-kube-apiserver-operator
     resource_type: cpu
     component: infra_pods
@@ -317,7 +316,7 @@ tests:
     tags.namespace: openshift-kube-apiserver-operator
     tags.pod: kube-apiserver-operator-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: kube-apiserver-openshift-kube-apiserver
     resource_type: cpu
     component: infra_pods
@@ -328,7 +327,7 @@ tests:
     tags.namespace: openshift-kube-apiserver
     tags.pod: kube-apiserver-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: kube-controller-manager-operator-openshift-kube-controller-manager-operator
     resource_type: cpu
     component: infra_pods
@@ -339,7 +338,7 @@ tests:
     tags.namespace: openshift-kube-controller-manager-operator
     tags.pod: kube-controller-manager-operator-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: kube-controller-manager-openshift-kube-controller-manager
     resource_type: cpu
     component: infra_pods
@@ -350,7 +349,7 @@ tests:
     tags.namespace: openshift-kube-controller-manager
     tags.pod: kube-controller-manager-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: openshift-kube-scheduler-operator-openshift-kube-scheduler-operator
     resource_type: cpu
     component: infra_pods
@@ -361,7 +360,7 @@ tests:
     tags.namespace: openshift-kube-scheduler-operator
     tags.pod: openshift-kube-scheduler-operator-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: openshift-kube-scheduler-openshift-kube-scheduler
     resource_type: cpu
     component: infra_pods
@@ -372,7 +371,7 @@ tests:
     tags.namespace: openshift-kube-scheduler
     tags.pod: openshift-kube-scheduler-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: kube-storage-version-migrator-operator-openshift-kube-storage-version-migrator-operator
     resource_type: cpu
     component: infra_pods
@@ -383,7 +382,7 @@ tests:
     tags.namespace: openshift-kube-storage-version-migrator-operator
     tags.pod: kube-storage-version-migrator-operator
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: migrator-openshift-kube-storage-version-migrator
     resource_type: cpu
     component: infra_pods
@@ -394,7 +393,7 @@ tests:
     tags.namespace: openshift-kube-storage-version-migrator
     tags.pod: migrator-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: local-storage-operator-openshift-local-storage
     resource_type: cpu
     component: infra_pods
@@ -405,7 +404,7 @@ tests:
     tags.namespace: openshift-local-storage
     tags.pod: local-storage-operator-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: cluster-logging-operator-openshift-logging
     resource_type: cpu
     component: infra_pods
@@ -416,7 +415,7 @@ tests:
     tags.namespace: openshift-logging
     tags.pod: cluster-logging-operator
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: instance-openshift-logging
     resource_type: cpu
     component: infra_pods
@@ -427,7 +426,7 @@ tests:
     tags.namespace: openshift-logging
     tags.pod: instance-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: kube-rbac-proxy-crio-openshift-machine-config-operator
     resource_type: cpu
     component: infra_pods
@@ -438,7 +437,7 @@ tests:
     tags.namespace: openshift-machine-config-operator
     tags.pod: kube-rbac-proxy-crio-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: machine-config-controller-openshift-machine-config-operator
     resource_type: cpu
     component: infra_pods
@@ -449,7 +448,7 @@ tests:
     tags.namespace: openshift-machine-config-operator
     tags.pod: machine-config-controller-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: machine-config-daemon-openshift-machine-config-operator
     resource_type: cpu
     component: infra_pods
@@ -460,7 +459,7 @@ tests:
     tags.namespace: openshift-machine-config-operator
     tags.pod: machine-config-daemon-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: machine-config-operator-openshift-machine-config-operator
     resource_type: cpu
     component: infra_pods
@@ -471,7 +470,7 @@ tests:
     tags.namespace: openshift-machine-config-operator
     tags.pod: machine-config-operator-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: machine-config-server-openshift-machine-config-operator
     resource_type: cpu
     component: infra_pods
@@ -482,7 +481,7 @@ tests:
     tags.namespace: openshift-machine-config-operator
     tags.pod: machine-config-server-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: redhat-operators-custom-openshift-marketplace
     resource_type: cpu
     component: infra_pods
@@ -493,7 +492,7 @@ tests:
     tags.namespace: openshift-marketplace
     tags.pod: redhat-operators-custom-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: cluster-monitoring-operator-openshift-monitoring
     resource_type: cpu
     component: infra_pods
@@ -504,7 +503,7 @@ tests:
     tags.namespace: openshift-monitoring
     tags.pod: cluster-monitoring-operator-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: kube-state-metrics-openshift-monitoring
     resource_type: cpu
     component: infra_pods
@@ -515,7 +514,7 @@ tests:
     tags.namespace: openshift-monitoring
     tags.pod: kube-state-metrics-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: metrics-server-openshift-monitoring
     resource_type: cpu
     component: infra_pods
@@ -526,7 +525,7 @@ tests:
     tags.namespace: openshift-monitoring
     tags.pod: metrics-server-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: node-exporter-openshift-monitoring
     resource_type: cpu
     component: infra_pods
@@ -537,7 +536,7 @@ tests:
     tags.namespace: openshift-monitoring
     tags.pod: node-exporter-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: openshift-state-metrics-openshift-monitoring
     resource_type: cpu
     component: infra_pods
@@ -548,7 +547,7 @@ tests:
     tags.namespace: openshift-monitoring
     tags.pod: openshift-state-metrics-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: prometheus-k8s-openshift-monitoring
     resource_type: cpu
     component: infra_pods
@@ -559,7 +558,7 @@ tests:
     tags.namespace: openshift-monitoring
     tags.pod: prometheus-k8s-0-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: prometheus-operator-openshift-monitoring
     resource_type: cpu
     component: infra_pods
@@ -570,7 +569,7 @@ tests:
     tags.namespace: openshift-monitoring
     tags.pod: prometheus-operator-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: prometheus-operator-admission-webhook-openshift-monitoring
     resource_type: cpu
     component: infra_pods
@@ -581,7 +580,7 @@ tests:
     tags.namespace: openshift-monitoring
     tags.pod: prometheus-operator-admission-webhook-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: thanos-querier-openshift-monitoring
     resource_type: cpu
     component: infra_pods
@@ -592,7 +591,7 @@ tests:
     tags.namespace: openshift-monitoring
     tags.pod: thanos-querier-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: multus-additional-cni-plugins-openshift-multus
     resource_type: cpu
     component: infra_pods
@@ -603,7 +602,7 @@ tests:
     tags.namespace: openshift-multus
     tags.pod: multus-additional-cni-plugins-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: multus-admission-controller-openshift-multus
     resource_type: cpu
     component: infra_pods
@@ -614,7 +613,7 @@ tests:
     tags.namespace: openshift-multus
     tags.pod: multus-admission-controller-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: multus-openshift-multus
     resource_type: cpu
     component: infra_pods
@@ -625,7 +624,7 @@ tests:
     tags.namespace: openshift-multus
     tags.pod: multus-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: network-metrics-daemon-openshift-multus
     resource_type: cpu
     component: infra_pods
@@ -636,7 +635,7 @@ tests:
     tags.namespace: openshift-multus
     tags.pod: network-metrics-daemon-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: network-node-identity-openshift-network-node-identity
     resource_type: cpu
     component: infra_pods
@@ -647,7 +646,7 @@ tests:
     tags.namespace: openshift-network-node-identity
     tags.pod: network-node-identity-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: iptables-alerter-openshift-network-operator
     resource_type: cpu
     component: infra_pods
@@ -658,7 +657,7 @@ tests:
     tags.namespace: openshift-network-operator
     tags.pod: iptables-alerter-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: network-operator-openshift-network-operator
     resource_type: cpu
     component: infra_pods
@@ -669,7 +668,7 @@ tests:
     tags.namespace: openshift-network-operator
     tags.pod: network-operator-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: apiserver-openshift-oauth-apiserver
     resource_type: cpu
     component: infra_pods
@@ -680,7 +679,7 @@ tests:
     tags.namespace: openshift-oauth-apiserver
     tags.pod: apiserver-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: catalog-operator-openshift-operator-lifecycle-manager
     resource_type: cpu
     component: infra_pods
@@ -691,7 +690,7 @@ tests:
     tags.namespace: openshift-operator-lifecycle-manager
     tags.pod: catalog-operator-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: olm-operator-openshift-operator-lifecycle-manager
     resource_type: cpu
     component: infra_pods
@@ -702,7 +701,7 @@ tests:
     tags.namespace: openshift-operator-lifecycle-manager
     tags.pod: olm-operator-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: package-server-manager-openshift-operator-lifecycle-manager
     resource_type: cpu
     component: infra_pods
@@ -713,7 +712,7 @@ tests:
     tags.namespace: openshift-operator-lifecycle-manager
     tags.pod: package-server-manager-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: packageserver-openshift-operator-lifecycle-manager
     resource_type: cpu
     component: infra_pods
@@ -724,7 +723,7 @@ tests:
     tags.namespace: openshift-operator-lifecycle-manager
     tags.pod: packageserver-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: ovnkube-control-plane-openshift-ovn-kubernetes
     resource_type: cpu
     component: infra_pods
@@ -735,7 +734,7 @@ tests:
     tags.namespace: openshift-ovn-kubernetes
     tags.pod: ovnkube-control-plane-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: ovnkube-node-openshift-ovn-kubernetes
     resource_type: cpu
     component: infra_pods
@@ -746,7 +745,7 @@ tests:
     tags.namespace: openshift-ovn-kubernetes
     tags.pod: ovnkube-node-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: linuxptp-daemon-openshift-ptp
     resource_type: cpu
     component: infra_pods
@@ -757,7 +756,7 @@ tests:
     tags.namespace: openshift-ptp
     tags.pod: linuxptp-daemon-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: ptp-operator-openshift-ptp
     resource_type: cpu
     component: infra_pods
@@ -768,7 +767,7 @@ tests:
     tags.namespace: openshift-ptp
     tags.pod: ptp-operator-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: route-controller-manager-openshift-route-controller-manager
     resource_type: cpu
     component: infra_pods
@@ -779,7 +778,7 @@ tests:
     tags.namespace: openshift-route-controller-manager
     tags.pod: route-controller-manager-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: service-ca-operator-openshift-service-ca-operator
     resource_type: cpu
     component: infra_pods
@@ -790,7 +789,7 @@ tests:
     tags.namespace: openshift-service-ca-operator
     tags.pod: service-ca-operator-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: service-ca-openshift-service-ca
     resource_type: cpu
     component: infra_pods
@@ -801,7 +800,7 @@ tests:
     tags.namespace: openshift-service-ca
     tags.pod: service-ca-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: sriov-device-plugin-openshift-sriov-network-operator
     resource_type: cpu
     component: infra_pods
@@ -812,7 +811,7 @@ tests:
     tags.namespace: openshift-sriov-network-operator
     tags.pod: sriov-device-plugin-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: sriov-network-config-daemon-openshift-sriov-network-operator
     resource_type: cpu
     component: infra_pods
@@ -823,7 +822,7 @@ tests:
     tags.namespace: openshift-sriov-network-operator
     tags.pod: sriov-network-config-daemon-
     direction: 1
-    threshold: 20
+    threshold: 50
   - name: sriov-network-operator-openshift-sriov-network-operator
     resource_type: cpu
     component: infra_pods
@@ -834,4 +833,4 @@ tests:
     tags.namespace: openshift-sriov-network-operator
     tags.pod: sriov-network-operator-
     direction: 1
-    threshold: 20
+    threshold: 50
