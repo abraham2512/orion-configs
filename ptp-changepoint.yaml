@@ -1,0 +1,171 @@
+# PTP Change Point Detection Orion Configuration
+# Author: Carlos Cardenosa (@ccardenosa)
+# Date: December 23, 2025
+# Status: READY FOR REVIEW - Thresholds based on 4-run variance analysis
+#
+# CRITICAL PREREQUISITE:
+#   The PTP test step MUST be updated to export metrics to OpenSearch.
+#   Currently it only exports to Prometheus Pushgateway.
+#   Reference: https://gitlab.cee.redhat.com/ran/ran-integration/-/blob/master/scripts/test_cpu_util.sh#L189
+#
+# OpenSearch Index: svc_telco_ptp (to be created)
+# 
+# Metrics tracked:
+#   - ptp4l: Master clock offset (hardware timestamping)
+#   - phc2sys: System clock to PHC synchronization
+#
+# Threshold Analysis (Dec 23, 2025 - 4 runs):
+#   PTP4L:
+#     - Baseline max: ~23 ns (average across runs)
+#     - Natural variation: ~22% (range: 21-26 ns)
+#     - Recommended threshold: 30%
+#   PHC2SYS:
+#     - Baseline max: ~59 ns (average across runs)
+#     - Natural variation: ~29% (range: 52-69 ns)
+#     - Recommended threshold: 35%
+#
+# Note: PTP is much more stable than CPU-util, so thresholds are tighter.
+
+tests:
+  # PTP4L Metrics - Master offset measurements
+  - name: telco-ptp-ptp4l-offset
+    index: svc_telco_ptp
+    benchmarkIndex: svc_telco_ptp
+    timestamp: timestamp
+    uuid: uuid
+    version: tags.sw_version
+    metadata:
+      tags.sw_version: "4.22*"
+      # tags.cluster: "ci-op*"  # Uncomment to filter by CI cluster prefix
+    metrics:
+      # Maximum ptp4l offset - critical for worst-case synchronization
+      # Baseline: ~23 ns, Natural variation: 22%, Alert if > 30 ns
+      - name: ptp4l_max_offset
+        resource_type: ptp
+        component: ptp4l
+        test_phase: steadyworkload
+        result_type: max
+        metric_of_interest: ptp4l_max
+        timestamp: timestamp
+        direction: 1  # Higher offset is worse (lower is better)
+        threshold: 30  # Based on 4-run analysis: 22% natural variation + margin
+
+      # Minimum ptp4l offset (absolute value)
+      # Baseline: ~24 ns, Natural variation: similar to max
+      - name: ptp4l_min_offset
+        resource_type: ptp
+        component: ptp4l
+        test_phase: steadyworkload
+        result_type: min
+        metric_of_interest: ptp4l_min
+        timestamp: timestamp
+        direction: 1
+        threshold: 30
+
+      # Average ptp4l offset - overall synchronization quality
+      # Baseline: ~0 ns (very centered), low variance
+      - name: ptp4l_avg_offset
+        resource_type: ptp
+        component: ptp4l
+        test_phase: steadyworkload
+        result_type: avg
+        metric_of_interest: ptp4l_offset_avg
+        timestamp: timestamp
+        direction: 1
+        threshold: 30
+
+  # PHC2SYS Metrics - System clock synchronization
+  - name: telco-ptp-phc2sys-offset
+    index: svc_telco_ptp
+    benchmarkIndex: svc_telco_ptp
+    timestamp: timestamp
+    uuid: uuid
+    version: tags.sw_version
+    metadata:
+      tags.sw_version: "4.22*"
+    metrics:
+      # Maximum phc2sys offset
+      # Baseline: ~59 ns, Natural variation: 29%, Alert if > 80 ns
+      - name: phc2sys_max_offset
+        resource_type: ptp
+        component: phc2sys
+        test_phase: steadyworkload
+        result_type: max
+        metric_of_interest: phc2sys_max
+        timestamp: timestamp
+        direction: 1
+        threshold: 35  # Based on 4-run analysis: 29% natural variation + margin
+
+      # Minimum phc2sys offset
+      - name: phc2sys_min_offset
+        resource_type: ptp
+        component: phc2sys
+        test_phase: steadyworkload
+        result_type: min
+        metric_of_interest: phc2sys_min
+        timestamp: timestamp
+        direction: 1
+        threshold: 35
+
+      # Average phc2sys offset
+      # Baseline: ~11 ns average
+      - name: phc2sys_avg_offset
+        resource_type: ptp
+        component: phc2sys
+        test_phase: steadyworkload
+        result_type: avg
+        metric_of_interest: phc2sys_offset_avg
+        timestamp: timestamp
+        direction: 1
+        threshold: 35
+
+# =============================================================================
+# ANALYSIS DATA (Dec 23, 2025)
+# =============================================================================
+#
+# 4 Runs Analyzed:
+#   - Run 1: ci-op-09q8clyy (Dec 22)
+#   - Run 2: 2003214093481152512
+#   - Run 3: 2003321486642778112
+#   - Run 4: 2003429344155799552
+#
+# PTP4L Master Offset Results:
+#   | Run | Max (ns) | Min (ns) | Avg (ns) | Samples |
+#   |-----|----------|----------|----------|---------|
+#   |  1  |    23    |   -23    |   0.00   |  9,612  |
+#   |  2  |    21    |   -25    |  -0.01   |  9,612  |
+#   |  3  |    26    |   -26    |   0.02   |  9,613  |
+#   |  4  |    22    |   -24    |  -0.01   |  9,613  |
+#
+# PHC2SYS Max Offset Results:
+#   | Run | Max (ns) | Avg (ns) | Samples |
+#   |-----|----------|----------|---------|
+#   |  1  |    56    |  12.16   |  9,408  |
+#   |  2  |    60    |  10.37   |  9,354  |
+#   |  3  |    69    |  14.58   |  9,447  |
+#   |  4  |    52    |   8.73   |  9,313  |
+#
+# Cross-Run Statistics:
+#   PTP4L Max:    avg=23ns, stddev=1.87ns, range=5ns (21-26)
+#   PHC2SYS Max:  avg=59ns, stddev=6.30ns, range=17ns (52-69)
+#
+# =============================================================================
+# OpenSearch Payload Format (to be implemented in test_ptp.sh)
+# =============================================================================
+#
+# {
+#   "uuid": "unique-run-identifier",
+#   "timestamp": "1734962400",  // Unix timestamp (keyword type!)
+#   "tags": {
+#     "pipeline": "ci",
+#     "sw_version": "4.22.0-0.nightly-...",
+#     "cluster": "ci-op-xxxxx",
+#     "duration": "1m",
+#     "baseline": "false"
+#   },
+#   "resource_type": "ptp",
+#   "component": "ptp4l",       // or "phc2sys"
+#   "test_phase": "steadyworkload",
+#   "result_type": "max",       // or "min", "avg"
+#   "value": 23                 // nanoseconds
+# }
