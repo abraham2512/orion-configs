@@ -1,836 +1,165 @@
+# PTP Change Point Detection Orion Configuration
+# Author: Carlos Cardenosa (@ccardenosa), Abraham Miller (@abraham2512)ß
+# Date: Feb 4, 2026
+# FIXED: Updated to match actual OpenSearch data structure
+#
+# OpenSearch Index: svc_telco_ptp
+#
+# Metrics tracked:
+#   - ptp4l: Master clock offset (hardware timestamping)
+#   - phc2sys: System clock to PHC synchronization
+#
+# Threshold Analysis (Dec 23, 2025 - 4 runs):
+#   PTP4L:
+#     - Baseline max: ~23 ns (average across runs)
+#     - Natural variation: ~22% (range: 21-26 ns)
+#     - Recommended threshold: 30%
+#   PHC2SYS:
+#     - Baseline max: ~59 ns (average across runs)
+#     - Natural variation: ~29% (range: 52-69 ns)
+#     - Recommended threshold: 35%
+#
+# Note: PTP is much more stable than CPU-util, so thresholds are tighter.
+
 tests:
-- name: telco-cpu-utilization-pods-average
-  index: svc_telco_cpu_util-v3
-  benchmarkIndex: svc_telco_cpu_util-v3
-  timestamp: timestamp
-  uuid: uuid
-  version: tags.sw_version
-  metadata:
-    tags.sw_version: 4.20*
-    # tags.cluster: "ci-op*"
-  metrics:
-  - name: config-policy-controller-open-cluster-management-agent-addon
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: open-cluster-management-agent-addon
-    tags.pod: config-policy-controller-
-    direction: 1
-    threshold: 25
-  - name: governance-policy-framework-open-cluster-management-agent-addon
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: open-cluster-management-agent-addon
-    tags.pod: governance-policy-framework-
-    direction: 1
-    threshold: 25
-  - name: klusterlet-addon-workmgr-open-cluster-management-agent-addon
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: open-cluster-management-agent-addon
-    tags.pod: klusterlet-addon-workmgr-
-    direction: 1
-    threshold: 25
-  - name: managed-serviceaccount-addon-agent-open-cluster-management-agent-addon
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: open-cluster-management-agent-addon
-    tags.pod: managed-serviceaccount-addon-agent-
-    direction: 1
-    threshold: 25
-  - name: klusterlet-open-cluster-management-agent
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: open-cluster-management-agent
-    tags.pod: klusterlet-
-    direction: 1
-    threshold: 25
-  - name: klusterlet-agent-open-cluster-management-agent
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: open-cluster-management-agent
-    tags.pod: klusterlet-agent-
-    direction: 1
-    threshold: 25
-  - name: openshift-apiserver-operator-openshift-apiserver-operator
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-apiserver-operator
-    tags.pod: openshift-apiserver-operator-
-    direction: 1
-    threshold: 25
-  - name: apiserver-openshift-apiserver
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-apiserver
-    tags.pod: apiserver-
-    direction: 1
-    threshold: 25
-  - name: authentication-operator-openshift-authentication-operator
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-authentication-operator
-    tags.pod: authentication-operator-
-    direction: 1
-    threshold: 25
-  - name: oauth-openshift-openshift-authentication
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-authentication
-    tags.pod: oauth-openshift-
-    direction: 1
-    threshold: 25
-  - name: machine-approver-openshift-cluster-machine-approver
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-cluster-machine-approver
-    tags.pod: machine-approver-
-    direction: 1
-    threshold: 25
-  - name: cluster-node-tuning-operator-openshift-cluster-node-tuning-operator
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-cluster-node-tuning-operator
-    tags.pod: cluster-node-tuning-operator-
-    direction: 1
-    threshold: 25
-  - name: tuned-openshift-cluster-node-tuning-operator
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-cluster-node-tuning-operator
-    tags.pod: tuned-
-    direction: 1
-    threshold: 25
-  - name: cluster-version-operator-openshift-cluster-version
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-cluster-version
-    tags.pod: cluster-version-operator-
-    direction: 1
-    threshold: 25
-  - name: openshift-config-operator-openshift-config-operator
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-config-operator
-    tags.pod: openshift-config-operator-
-    direction: 1
-    threshold: 25
-  - name: openshift-controller-manager-operator-openshift-controller-manager-operator
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-controller-manager-operator
-    tags.pod: openshift-controller-manager-operator-
-    direction: 1
-    threshold: 25
-  - name: controller-manager-openshift-controller-manager
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-controller-manager
-    tags.pod: controller-manager-
-    direction: 1
-    threshold: 25
-  - name: dns-operator-openshift-dns-operator
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-dns-operator
-    tags.pod: dns-operator-
-    direction: 1
-    threshold: 25
-  - name: dns-default-openshift-dns
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-dns
-    tags.pod: dns-default-
-    direction: 1
-    threshold: 25
-  - name: node-resolver-openshift-dns
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-dns
-    tags.pod: node-resolver-
-    direction: 1
-    threshold: 25
-  - name: etcd-operator-openshift-etcd-operator
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-etcd-operator
-    tags.pod: etcd-operator-
-    direction: 1
-    threshold: 25
-  - name: etcd-openshift-etcd
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-etcd
-    tags.pod: etcd-
-    direction: 1
-    threshold: 25
-  - name: cluster-image-registry-operator-openshift-image-registry
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-image-registry
-    tags.pod: cluster-image-registry-operator-
-    direction: 1
-    threshold: 25
-  - name: node-ca-openshift-image-registry
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-image-registry
-    tags.pod: node-ca-
-    direction: 1
-    threshold: 25
-  - name: ingress-canary-openshift-ingress-canary
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-ingress-canary
-    tags.pod: ingress-canary-
-    direction: 1
-    threshold: 25
-  - name: ingress-operator-openshift-ingress-operator
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-ingress-operator
-    tags.pod: ingress-operator-
-    direction: 1
-    threshold: 25
-  - name: router-default-openshift-ingress
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-ingress
-    tags.pod: router-default-
-    direction: 1
-    threshold: 25
-  - name: kube-apiserver-operator-openshift-kube-apiserver-operator
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-kube-apiserver-operator
-    tags.pod: kube-apiserver-operator-
-    direction: 1
-    threshold: 25
-  - name: kube-apiserver-openshift-kube-apiserver
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-kube-apiserver
-    tags.pod: kube-apiserver-
-    direction: 1
-    threshold: 25
-  - name: kube-controller-manager-operator-openshift-kube-controller-manager-operator
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-kube-controller-manager-operator
-    tags.pod: kube-controller-manager-operator-
-    direction: 1
-    threshold: 25
-  - name: kube-controller-manager-openshift-kube-controller-manager
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-kube-controller-manager
-    tags.pod: kube-controller-manager-
-    direction: 1
-    threshold: 25
-  - name: openshift-kube-scheduler-operator-openshift-kube-scheduler-operator
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-kube-scheduler-operator
-    tags.pod: openshift-kube-scheduler-operator-
-    direction: 1
-    threshold: 25
-  - name: openshift-kube-scheduler-openshift-kube-scheduler
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-kube-scheduler
-    tags.pod: openshift-kube-scheduler-
-    direction: 1
-    threshold: 25
-  - name: kube-storage-version-migrator-operator-openshift-kube-storage-version-migrator-operator
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-kube-storage-version-migrator-operator
-    tags.pod: kube-storage-version-migrator-operator
-    direction: 1
-    threshold: 25
-  - name: migrator-openshift-kube-storage-version-migrator
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-kube-storage-version-migrator
-    tags.pod: migrator-
-    direction: 1
-    threshold: 25
-  - name: local-storage-operator-openshift-local-storage
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-local-storage
-    tags.pod: local-storage-operator-
-    direction: 1
-    threshold: 25
-  - name: cluster-logging-operator-openshift-logging
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-logging
-    tags.pod: cluster-logging-operator
-    direction: 1
-    threshold: 25
-  - name: instance-openshift-logging
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-logging
-    tags.pod: instance-
-    direction: 1
-    threshold: 25
-  - name: kube-rbac-proxy-crio-openshift-machine-config-operator
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-machine-config-operator
-    tags.pod: kube-rbac-proxy-crio-
-    direction: 1
-    threshold: 25
-  - name: machine-config-controller-openshift-machine-config-operator
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-machine-config-operator
-    tags.pod: machine-config-controller-
-    direction: 1
-    threshold: 25
-  - name: machine-config-daemon-openshift-machine-config-operator
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-machine-config-operator
-    tags.pod: machine-config-daemon-
-    direction: 1
-    threshold: 25
-  - name: machine-config-operator-openshift-machine-config-operator
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-machine-config-operator
-    tags.pod: machine-config-operator-
-    direction: 1
-    threshold: 25
-  - name: machine-config-server-openshift-machine-config-operator
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-machine-config-operator
-    tags.pod: machine-config-server-
-    direction: 1
-    threshold: 25
-  - name: redhat-operators-custom-openshift-marketplace
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-marketplace
-    tags.pod: redhat-operators-custom-
-    direction: 1
-    threshold: 25
-  - name: cluster-monitoring-operator-openshift-monitoring
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-monitoring
-    tags.pod: cluster-monitoring-operator-
-    direction: 1
-    threshold: 25
-  - name: kube-state-metrics-openshift-monitoring
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-monitoring
-    tags.pod: kube-state-metrics-
-    direction: 1
-    threshold: 25
-  - name: metrics-server-openshift-monitoring
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-monitoring
-    tags.pod: metrics-server-
-    direction: 1
-    threshold: 25
-  - name: node-exporter-openshift-monitoring
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-monitoring
-    tags.pod: node-exporter-
-    direction: 1
-    threshold: 25
-  - name: openshift-state-metrics-openshift-monitoring
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-monitoring
-    tags.pod: openshift-state-metrics-
-    direction: 1
-    threshold: 25
-  - name: prometheus-k8s-openshift-monitoring
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-monitoring
-    tags.pod: prometheus-k8s-0-
-    direction: 1
-    threshold: 25
-  - name: prometheus-operator-openshift-monitoring
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-monitoring
-    tags.pod: prometheus-operator-
-    direction: 1
-    threshold: 25
-  - name: prometheus-operator-admission-webhook-openshift-monitoring
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-monitoring
-    tags.pod: prometheus-operator-admission-webhook-
-    direction: 1
-    threshold: 25
-  - name: thanos-querier-openshift-monitoring
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-monitoring
-    tags.pod: thanos-querier-
-    direction: 1
-    threshold: 25
-  - name: multus-additional-cni-plugins-openshift-multus
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-multus
-    tags.pod: multus-additional-cni-plugins-
-    direction: 1
-    threshold: 25
-  - name: multus-admission-controller-openshift-multus
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-multus
-    tags.pod: multus-admission-controller-
-    direction: 1
-    threshold: 25
-  - name: multus-openshift-multus
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-multus
-    tags.pod: multus-
-    direction: 1
-    threshold: 25
-  - name: network-metrics-daemon-openshift-multus
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-multus
-    tags.pod: network-metrics-daemon-
-    direction: 1
-    threshold: 25
-  - name: network-node-identity-openshift-network-node-identity
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-network-node-identity
-    tags.pod: network-node-identity-
-    direction: 1
-    threshold: 25
-  - name: iptables-alerter-openshift-network-operator
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-network-operator
-    tags.pod: iptables-alerter-
-    direction: 1
-    threshold: 25
-  - name: network-operator-openshift-network-operator
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-network-operator
-    tags.pod: network-operator-
-    direction: 1
-    threshold: 25
-  - name: apiserver-openshift-oauth-apiserver
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-oauth-apiserver
-    tags.pod: apiserver-
-    direction: 1
-    threshold: 25
-  - name: catalog-operator-openshift-operator-lifecycle-manager
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-operator-lifecycle-manager
-    tags.pod: catalog-operator-
-    direction: 1
-    threshold: 25
-  - name: olm-operator-openshift-operator-lifecycle-manager
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-operator-lifecycle-manager
-    tags.pod: olm-operator-
-    direction: 1
-    threshold: 25
-  - name: package-server-manager-openshift-operator-lifecycle-manager
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-operator-lifecycle-manager
-    tags.pod: package-server-manager-
-    direction: 1
-    threshold: 25
-  - name: packageserver-openshift-operator-lifecycle-manager
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-operator-lifecycle-manager
-    tags.pod: packageserver-
-    direction: 1
-    threshold: 25
-  - name: ovnkube-control-plane-openshift-ovn-kubernetes
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-ovn-kubernetes
-    tags.pod: ovnkube-control-plane-
-    direction: 1
-    threshold: 25
-  - name: ovnkube-node-openshift-ovn-kubernetes
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-ovn-kubernetes
-    tags.pod: ovnkube-node-
-    direction: 1
-    threshold: 25
-  - name: linuxptp-daemon-openshift-ptp
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-ptp
-    tags.pod: linuxptp-daemon-
-    direction: 1
-    threshold: 25
-  - name: ptp-operator-openshift-ptp
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-ptp
-    tags.pod: ptp-operator-
-    direction: 1
-    threshold: 25
-  - name: route-controller-manager-openshift-route-controller-manager
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-route-controller-manager
-    tags.pod: route-controller-manager-
-    direction: 1
-    threshold: 25
-  - name: service-ca-operator-openshift-service-ca-operator
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-service-ca-operator
-    tags.pod: service-ca-operator-
-    direction: 1
-    threshold: 25
-  - name: service-ca-openshift-service-ca
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-service-ca
-    tags.pod: service-ca-
-    direction: 1
-    threshold: 25
-  - name: sriov-device-plugin-openshift-sriov-network-operator
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-sriov-network-operator
-    tags.pod: sriov-device-plugin-
-    direction: 1
-    threshold: 25
-  - name: sriov-network-config-daemon-openshift-sriov-network-operator
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-sriov-network-operator
-    tags.pod: sriov-network-config-daemon-
-    direction: 1
-    threshold: 25
-  - name: sriov-network-operator-openshift-sriov-network-operator
-    resource_type: cpu
-    component: infra_pods
-    test_phase: steadyworkload
-    result_type: avg
-    metric_of_interest: value
-    timestamp: timestamp
-    tags.namespace: openshift-sriov-network-operator
-    tags.pod: sriov-network-operator-
-    direction: 1
-    threshold: 25
+  # PTP4L Metrics - Master offset measurements
+  - name: telco-ptp-ptp4l-offset
+    version: tags.sw_version
+    metadata:
+      tags.sw_version: "4.21*"
+      # tags.cluster: "spree*"  # Uncomment to filter by cluster prefix
+
+    metrics:
+      # Maximum ptp4l offset - critical for worst-case synchronization
+      # Baseline: ~23 ns, Natural variation: 22%, Alert if > 30% increase
+      - name: ptp4l_max_offset
+        resource_type: ptp4l
+        component: max
+        test_phase: offset
+        metric_of_interest: value
+        direction: 1  # Higher offset is worse
+        threshold: 30  # Based on 4-run analysis: 22% natural variation + margin
+
+      # Minimum ptp4l offset (absolute value)
+      # Baseline: ~24 ns, Natural variation: similar to max
+      - name: ptp4l_min_offset
+        resource_type: ptp4l
+        component: min
+        test_phase: offset
+        metric_of_interest: value
+        direction: 1
+        threshold: 30
+
+      # Average ptp4l offset - overall synchronization quality
+      # Baseline: ~0 ns (very centered), low variance
+      - name: ptp4l_avg_offset
+        resource_type: ptp4l
+        component: avg
+        test_phase: offset
+        metric_of_interest: value
+        direction: 1
+        threshold: 30
+
+  # PHC2SYS Metrics - System clock synchronization
+  - name: telco-ptp-phc2sys-offset
+    version: tags.sw_version
+    metadata:
+      tags.sw_version: "4.21*"
+
+    metrics:
+      # Maximum phc2sys offset
+      # Baseline: ~59 ns, Natural variation: 29%, Alert if > 80 ns
+      - name: phc2sys_max_offset
+        resource_type: phc2sys
+        component: max
+        test_phase: offset
+        metric_of_interest: value
+        direction: 1
+        threshold: 35  # Based on 4-run analysis: 29% natural variation + margin
+
+      # Minimum phc2sys offset
+      - name: phc2sys_min_offset
+        resource_type: phc2sys
+        component: min
+        test_phase: offset
+        metric_of_interest: value
+        direction: 1
+        threshold: 35
+
+      # Average phc2sys offset
+      # Baseline: ~11 ns average
+      - name: phc2sys_avg_offset
+        resource_type: phc2sys
+        component: avg
+        test_phase: offset
+        metric_of_interest: value
+        direction: 1
+        threshold: 35
+
+# =============================================================================
+# ACTUAL DATA STRUCTURE (from svc_telco_ptp index)
+# =============================================================================
+#
+# Sample Document:
+# {
+#   "resource_type": "ptp4l",       // or "phc2sys"
+#   "component": "max",              // "max", "min", or "avg"
+#   "test_phase": "offset",          // or "status"
+#   "result_type": "",               // empty string for offset measurements
+#   "value": 29,                     // THE METRIC VALUE (nanoseconds)
+#   "tags": {
+#     "pipeline": "ci",
+#     "rc": "0",
+#     "cluster": "spree-02",
+#     "cpu_type": "Intel(R) Xeon(R) Gold 6433N",
+#     "formal_test": "true",
+#     "hyperthread": "2",
+#     "kernel_realtime": "true",
+#     "kernel_version": "5.14.0-570.78.1.el9_6.x86_64+rt",
+#     "power_mode": "performance",
+#     "sw_version": "4.21.0-rc.2",
+#     "duration": "10m",
+#     "interface1": "ens1f3",
+#     "nic1": "Intel Corporation Ethernet Controller E810-C for SFP (rev 02)"
+#   },
+#   "timestamp": 1769697799,         // Unix timestamp (integer)
+#   "uuid": "89a3701a-2348-49c7-bd96-9c9f49058fb1"
+# }
+#
+# =============================================================================
+# KEY FIXES FROM ORIGINAL CONFIG:
+# =============================================================================
+#
+# 1. Removed incorrect field mappings:
+#    - OLD: index: svc_telco_ptp
+#    - NEW: Pass via CLI --metadata-index and --benchmark-index
+#
+# 2. Fixed field name mappings:
+#    - OLD: uuid: uuid
+#    - NEW: (omitted - uses default uuid_field: "uuid")
+#
+# 3. Fixed version field:
+#    - OLD: version: tags.sw_version
+#    - NEW: version: tags.sw_version
+#
+# 4. Fixed metric filters to match actual data:
+#    - OLD: resource_type: ptp, component: ptp4l
+#    - NEW: resource_type: ptp4l, component: max
+#
+# 5. Fixed test_phase:
+#    - OLD: test_phase: steadyworkload
+#    - NEW: test_phase: offset
+#
+# 6. Fixed metric field name:
+#    - OLD: metric_of_interest: ptp4l_max
+#    - NEW: metric_of_interest: value
+#
+# 7. Fixed result_type:
+#    - OLD: result_type: max
+#    - NEW: result_type: ""
+#
+# 8. Removed invalid metric-level timestamp field
+#
+# 9. Updated version wildcard to match actual data:
+#    - OLD: 4.22*
+#    - NEW: 4.21* (based on current data showing 4.21.0-rc.2)
