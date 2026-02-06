@@ -26,9 +26,9 @@ tests:
   - name: telco-ptp-ptp4l-offset
     version: tags.sw_version
     metadata:
-      # tags.sw_version: "4.21*"
+      # tags.sw_version: "4.21*"  # Version filtering handled by version field above
       # tags.cluster: "spree*"  # Uncomment to filter by cluster prefix
-      tags.pipeline: "ci*"
+      tags.pipeline: "ci"
 
     metrics:
       # Maximum ptp4l offset - critical for worst-case synchronization
@@ -65,7 +65,8 @@ tests:
   - name: telco-ptp-phc2sys-offset
     version: tags.sw_version
     metadata:
-      tags.sw_version: "4.21*"
+      # tags.sw_version: "4.21*"  # Version filtering handled by version field above
+      tags.pipeline: "ci"
 
     metrics:
       # Maximum phc2sys offset
