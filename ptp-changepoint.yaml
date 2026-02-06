@@ -1,6 +1,6 @@
 # PTP Change Point Detection Orion Configuration
 # Author: Carlos Cardenosa (@ccardenosa), Abraham Miller (@abraham2512)ß
-# Date: Feb 3, 2026
+# Date: Feb 4, 2026
 # FIXED: Updated to match actual OpenSearch data structure
 #
 # OpenSearch Index: svc_telco_ptp
@@ -36,7 +36,6 @@ tests:
         resource_type: ptp4l
         component: max
         test_phase: offset
-        result_type: ""
         metric_of_interest: value
         direction: 1  # Higher offset is worse
         threshold: 30  # Based on 4-run analysis: 22% natural variation + margin
@@ -47,7 +46,6 @@ tests:
         resource_type: ptp4l
         component: min
         test_phase: offset
-        result_type: ""
         metric_of_interest: value
         direction: 1
         threshold: 30
@@ -58,7 +56,6 @@ tests:
         resource_type: ptp4l
         component: avg
         test_phase: offset
-        result_type: ""
         metric_of_interest: value
         direction: 1
         threshold: 30
@@ -76,7 +73,6 @@ tests:
         resource_type: phc2sys
         component: max
         test_phase: offset
-        result_type: ""
         metric_of_interest: value
         direction: 1
         threshold: 35  # Based on 4-run analysis: 29% natural variation + margin
@@ -86,7 +82,6 @@ tests:
         resource_type: phc2sys
         component: min
         test_phase: offset
-        result_type: ""
         metric_of_interest: value
         direction: 1
         threshold: 35
@@ -97,7 +92,74 @@ tests:
         resource_type: phc2sys
         component: avg
         test_phase: offset
-        result_type: ""
         metric_of_interest: value
         direction: 1
         threshold: 35
+
+# =============================================================================
+# ACTUAL DATA STRUCTURE (from svc_telco_ptp index)
+# =============================================================================
+#
+# Sample Document:
+# {
+#   "resource_type": "ptp4l",       // or "phc2sys"
+#   "component": "max",              // "max", "min", or "avg"
+#   "test_phase": "offset",          // or "status"
+#   "result_type": "",               // empty string for offset measurements
+#   "value": 29,                     // THE METRIC VALUE (nanoseconds)
+#   "tags": {
+#     "pipeline": "ci",
+#     "rc": "0",
+#     "cluster": "spree-02",
+#     "cpu_type": "Intel(R) Xeon(R) Gold 6433N",
+#     "formal_test": "true",
+#     "hyperthread": "2",
+#     "kernel_realtime": "true",
+#     "kernel_version": "5.14.0-570.78.1.el9_6.x86_64+rt",
+#     "power_mode": "performance",
+#     "sw_version": "4.21.0-rc.2",
+#     "duration": "10m",
+#     "interface1": "ens1f3",
+#     "nic1": "Intel Corporation Ethernet Controller E810-C for SFP (rev 02)"
+#   },
+#   "timestamp": 1769697799,         // Unix timestamp (integer)
+#   "uuid": "89a3701a-2348-49c7-bd96-9c9f49058fb1"
+# }
+#
+# =============================================================================
+# KEY FIXES FROM ORIGINAL CONFIG:
+# =============================================================================
+#
+# 1. Removed incorrect field mappings:
+#    - OLD: index: svc_telco_ptp
+#    - NEW: Pass via CLI --metadata-index and --benchmark-index
+#
+# 2. Fixed field name mappings:
+#    - OLD: uuid: uuid
+#    - NEW: (omitted - uses default uuid_field: "uuid")
+#
+# 3. Fixed version field:
+#    - OLD: version: tags.sw_version
+#    - NEW: version_field: tags.sw_version
+#
+# 4. Fixed metric filters to match actual data:
+#    - OLD: resource_type: ptp, component: ptp4l
+#    - NEW: resource_type: ptp4l, component: max
+#
+# 5. Fixed test_phase:
+#    - OLD: test_phase: steadyworkload
+#    - NEW: test_phase: offset
+#
+# 6. Fixed metric field name:
+#    - OLD: metric_of_interest: ptp4l_max
+#    - NEW: metric_of_interest: value
+#
+# 7. Fixed result_type:
+#    - OLD: result_type: max
+#    - NEW: result_type: ""
+#
+# 8. Removed invalid metric-level timestamp field
+#
+# 9. Updated version wildcard to match actual data:
+#    - OLD: 4.22*
+#    - NEW: 4.21* (based on current data showing 4.21.0-rc.2)
