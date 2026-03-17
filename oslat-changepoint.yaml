@@ -1,0 +1,116 @@
+# Oslat Change Point Detection Orion Configuration
+# Author: Abraham Miller (@abraham2512)
+# Date: Mar 17, 2026
+#
+# OpenSearch Index: svc_telco_oslat
+#
+# Metrics tracked:
+#   - oslat: OS-level latency measurement per isolated CPU core
+#     - min: Minimum latency observed (microseconds)
+#     - avg: Average latency observed (microseconds)
+#     - max: Maximum/worst-case latency observed (microseconds)
+#     - availability: Percentage of samples under the configured threshold
+#
+# Latency values are in microseconds. Typical healthy baselines:
+#   min: 0 μs, avg: ~1 μs, max: 4-5 μs, availability: 100%
+#
+# Note: Each test run produces results per isolated CPU core (core_num).
+# Orion aggregates data points per UUID for change point detection.
+
+tests:
+  - name: telco-oslat-latency
+    version_field: tags.sw_version
+    metadata:
+      tags.sw_version: "4.21*"
+      # tags.cluster: "spree*"  # Uncomment to filter by cluster prefix
+
+    metrics:
+      # Maximum oslat latency - worst-case OS scheduling jitter
+      # Baseline: ~4-5 μs across cores
+      - name: oslat_max_latency
+        resource_type: oslat
+        component: test
+        test_phase: max
+        metric_of_interest: value
+        direction: 1
+        threshold: 30
+
+      # Average oslat latency - typical scheduling overhead
+      # Baseline: ~1 μs across cores
+      - name: oslat_avg_latency
+        resource_type: oslat
+        component: test
+        test_phase: avg
+        metric_of_interest: value
+        direction: 1
+        threshold: 30
+
+      # Minimum oslat latency - best-case latency floor
+      # Baseline: 0 μs
+      - name: oslat_min_latency
+        resource_type: oslat
+        component: test
+        test_phase: min
+        metric_of_interest: value
+        direction: 1
+        threshold: 30
+
+  - name: telco-oslat-availability
+    version_field: tags.sw_version
+    metadata:
+      tags.sw_version: "4.21*"
+
+    metrics:
+      # Availability - percentage of samples under the latency threshold
+      # Baseline: 100%, any decrease indicates latency spikes
+      - name: oslat_availability
+        resource_type: oslat
+        component: test
+        test_phase: availability
+        metric_of_interest: value
+        direction: -1
+        threshold: 5
+
+# =============================================================================
+# ACTUAL DATA STRUCTURE (from svc_telco_oslat index)
+# =============================================================================
+#
+# Sample Document:
+# {
+#   "resource_type": "oslat",
+#   "component": "test",
+#   "test_phase": "max",            // "min", "avg", "max", or "availability"
+#   "result_type": "",              // empty string
+#   "value": 5,                     // THE METRIC VALUE (microseconds or %)
+#   "tags": {
+#     "core_num": "5",
+#     "cluster_type": "sno",
+#     "node_type": "sno",
+#     "pipeline": "ci",
+#     "rc": "0",
+#     "cluster": "spree-04",
+#     "cpu_type": "Intel(R) Xeon(R) Gold 6433N",
+#     "formal_test": "true",
+#     "hyperthread": "2",
+#     "kernel_realtime": "false",
+#     "kernel_version": "5.14.0-570.78.1.el9_6.x86_64",
+#     "power_mode": "performance",
+#     "sw_version": "4.21.0-rc.2",
+#     "duration": "1h",
+#     "threshold": "20"             // Only present for availability phase
+#   },
+#   "timestamp": 1773766496,        // Unix timestamp (integer)
+#   "uuid": "1c76509c-b81e-4295-bb7a-df85c5c7a88e"
+# }
+#
+# =============================================================================
+# USAGE
+# =============================================================================
+#
+# orion --config oslat-changepoint.yaml \
+#   --hunter-analyze \
+#   --input-vars='{"version": "4.21"}' \
+#   --es-server='https://my-opensearch.perf.com' \
+#   --benchmark-index=svc_telco_oslat \
+#   --metadata-index=svc_telco_oslat \
+#   --lookback=15d
